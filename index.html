@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<link rel="manifest" href="manifest.json">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cantina Bellavita — Culinária Italiana Autêntica</title>
+  <meta name="description" content="Cantina Bellavita: massas frescas, pizzas no forno a lenha e vinhos selecionados. Reserve sua mesa!" />
+
+  <!-- ===== DEPENDÊNCIAS VIA CDN ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    /* =========================================================
+       CANTINA BELLAVITA — FOLHA DE ESTILOS EMBUTIDA
+       Paleta: terracota (#C05621), creme (#FAF3E7), grafite (#1F1A17)
+       ========================================================= */
+    :root {
+      --cor-primaria: #C05621;
+      --cor-primaria-escura: #9A421A;
+      --cor-creme: #FAF3E7;
+      --cor-creme-escuro: #F1E4CF;
+      --cor-grafite: #1F1A17;
+      --cor-texto: #4A3F38;
+      --cor-branco: #FFFFFF;
+      --sombra-suave: 0 10px 30px rgba(31, 26, 23, .10);
+      --raio: 16px;
+      --transicao: all .35s ease;
+      --fonte-titulo: 'Playfair Display', serif;
+      --fonte-texto: 'Inter', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; } /* rolagem suave para âncoras */
+
+    body {
+      font-family: var(--fonte-texto);
+      color: var(--cor-texto);
+      background: var(--cor-creme);
+      line-height: 1.6;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    .container {
+      width: min(1120px, 92%);
+      margin-inline: auto;
+    }
+
+    /* ============ HEADER ============ */
+    .header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      background: rgba(31, 26, 23, .85);
+      backdrop-filter: blur(10px);
+      transition: var(--transicao);
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: var(--fonte-titulo);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cor-creme);
+      letter-spacing: .5px;
+    }
+    .logo span { color: var(--cor-primaria); font-style: italic; }
+
+    .nav { display: flex; align-items: center; gap: 2rem; }
+
+    .nav a {
+      color: var(--cor-creme);
+      font-size: .95rem;
+      font-weight: 500;
+      position: relative;
+      transition: var(--transicao);
+    }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -6px;
+      width: 0; height: 2px;
+      background: var(--cor-primaria);
+      transition: var(--transicao);
+    }
+    .nav a:hover::after { width: 100%; }
+
+    /* Botão CTA do header */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.6rem;
+      border: none;
+      border-radius: 50px;
+      font-family: var(--fonte-texto);
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transicao);
+    }
+    .btn--primario {
+      background: var(--cor-primaria);
+      color: var(--cor-branco);
+    }
+    .btn--primario:hover {
+      background: var(--cor-primaria-escura);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(192, 86, 33, .35);
+    }
+    .btn--contorno {
+      background: transparent;
+      color: var(--cor-branco);
+      border: 2px solid var(--cor-creme);
+    }
+    .btn--contorno:hover { background: var(--cor-creme); color: var(--cor-grafite); }
+    .btn--whatsapp { background: #25D366; color: #fff; }
+    .btn--whatsapp:hover { background: #1eb85a; transform: translateY(-2px); }
+
+    /* Botão hambúrguer (mobile) */
+    .hamburguer {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: .4rem;
+    }
+    .hamburguer span {
+      width: 26px; height: 3px;
+      background: var(--cor-creme);
+      border-radius: 3px;
+      transition: var(--transicao);
+    }
+    .hamburguer.ativo span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburguer.ativo span:nth-child(2) { opacity: 0; }
+    .hamburguer.ativo span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* ============ HERO ============ */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background:
+        linear-gradient(rgba(31, 26, 23, .72), rgba(31, 26, 23, .72)),
+        /* ALTERE A IMAGEM DE FUNDO DO HERO AQUI */
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80')
+        center/cover no-repeat;
+      text-align: center;
+      color: var(--cor-creme);
+      padding: 8rem 0 5rem;
+    }
+
+    .hero__conteudo { max-width: 720px; margin-inline: auto; }
+
+    .hero__tag {
+      display: inline-block;
+      font-size: .8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cor-primaria);
+      background: rgba(250, 243, 231, .12);
+      border: 1px solid rgba(250, 243, 231, .25);
+      padding: .45rem 1.1rem;
+      border-radius: 50px;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero h1 {
+      font-family: var(--fonte-titulo);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.15;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em { color: var(--cor-primaria); }
+
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 300;
+      opacity: .9;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero__acoes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    /* ============ SEÇÕES GERAIS ============ */
+    .secao { padding: 5.5rem 0; }
+
+    .secao__cabecalho { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
+
+    .secao__cabecalho .etiqueta {
+      color: var(--cor-primaria);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .secao__cabecalho h2 {
+      font-family: var(--fonte-titulo);
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: var(--cor-grafite);
+      margin: .6rem 0 .8rem;
+    }
+
+    .secao__cabecalho p { opacity: .85; }
+
+    /* ============ CARDÁPIO (GRID) ============ */
+    .grade-cardapio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .prato {
+      background: var(--cor-branco);
+      border-radius: var(--raio);
+      overflow: hidden;
+      box-shadow: var(--sombra-suave);
+      transition: var(--transicao);
+      display: flex;
+      flex-direction: column;
+    }
+    .prato:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(31,26,23,.16); }
+
+    .prato__imagem { height: 210px; overflow: hidden; }
+    .prato__imagem img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+    .prato:hover .prato__imagem img { transform: scale(1.08); }
+
+    .prato__corpo { padding: 1.4rem 1.4rem 1.6rem; display: flex; flex-direction: column; flex: 1; }
+
+    .prato__corpo h3 {
+      font-family: var(--fonte-titulo);
+      font-size: 1.3rem;
+      color: var(--cor-grafite);
+      margin-bottom: .4rem;
+    }
+
+    .prato__corpo p { font-size: .92rem; flex: 1; }
+
+    .prato__rodape {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.1rem;
+    }
+
+    .preco {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cor-primaria);
+    }
+
+    .badge {
+      font-size: .72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: var(--cor-creme-escuro);
+      color: var(--cor-primaria-escura);
+      padding: .3rem .7rem;
+      border-radius: 50px;
+    }
+
+    /* ============ SOBRE NÓS ============ */
+    .sobre { background: var(--cor-branco); }
+
+    .sobre__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .sobre__imagem img {
+      border-radius: var(--raio);
+      box-shadow: var(--sombra-suave);
+      height: 100%;
+      object-fit: cover;
+      max-height: 480px;
+      width: 100%;
+    }
+
+    .sobre__texto h2 {
+      font-family: var(--fonte-titulo);
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      color: var(--cor-grafite);
+      margin-bottom: 1rem;
+    }
+
+    .sobre__texto p { margin-bottom: 1rem; }
+
+    .diferenciais {
+      list-style: none;
+      margin-top: 1.6rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .diferenciais li {
+      display: flex;
+      gap: .9rem;
+      align-items: flex-start;
+    }
+
+    .diferenciais i {
+      color: var(--cor-primaria);
+      font-size: 1.2rem;
+      margin-top: .15rem;
+    }
+
+    .diferenciais strong { color: var(--cor-grafite); }
+
+    /* ============ CONTATO ============ */
+    .contato__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+
+    .cartao-contato {
+      background: var(--cor-branco);
+      border-radius: var(--raio);
+      padding: 2rem 1.6rem;
+      text-align: center;
+      box-shadow: var(--sombra-suave);
+      transition: var(--transicao);
+    }
+    .cartao-contato:hover { transform: translateY(-6px); }
+
+    .cartao-contato i {
+      font-size: 1.6rem;
+      color: var(--cor-primaria);
+      margin-bottom: .9rem;
+    }
+
+    .cartao-contato h3 {
+      font-family: var(--fonte-titulo);
+      color: var(--cor-grafite);
+      margin-bottom: .5rem;
+    }
+
+    .cartao-contato p { font-size: .95rem; }
+
+    .contato__cta {
+      text-align: center;
+      background: var(--cor-grafite);
+      border-radius: var(--raio);
+      padding: 3rem 1.5rem;
+      color: var(--cor-creme);
+    }
+
+    .contato__cta h3 {
+      font-family: var(--fonte-titulo);
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      margin-bottom: .6rem;
+    }
+
+    .contato__cta p { opacity: .85; margin-bottom: 1.8rem; }
+
+    /* ============ FOOTER ============ */
+    .footer {
+      background: var(--cor-grafite);
+      color: var(--cor-creme);
+      padding: 3rem 0 1.5rem;
+      text-align: center;
+    }
+
+    .footer .logo { font-size: 1.4rem; display: inline-block; margin-bottom: 1rem; }
+
+    .footer__social {
+      display: flex;
+      justify-content: center;
+      gap: 1.1rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .footer__social a {
+      width: 42px; height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(250, 243, 231, .3);
+      border-radius: 50%;
+      color: var(--cor-creme);
+      transition: var(--transicao);
+    }
+    .footer__social a:hover {
+      background: var(--cor-primaria);
+      border-color: var(--cor-primaria);
+      transform: translateY(-4px);
+    }
+
+    .footer__copy { font-size: .85rem; opacity: .65; }
+
+    /* ============ RESPONSIVO (MOBILE-FIRST PROGRESSIVO) ============ */
+    @media (max-width: 768px) {
+      .hamburguer { display: flex; }
+
+      .nav {
+        position: fixed;
+        top: 0; right: 0;
+        height: 100vh;
+        width: min(320px, 80vw);
+        flex-direction: column;
+        justify-content: center;
+        gap: 2.2rem;
+        background: var(--cor-grafite);
+        transform: translateX(100%);
+        transition: transform .4s ease;
+        box-shadow: -10px 0 40px rgba(0,0,0,.4);
+      }
+      .nav.aberto { transform: translateX(0); }
+      .nav a { font-size: 1.15rem; }
+      .nav .btn { margin-top: .5rem; }
+
+      .sobre__grid { grid-template-columns: 1fr; gap: 2.2rem; }
+      .sobre__imagem { order: -1; }
+    }
+
+    @media (max-width: 480px) {
+      .secao { padding: 4rem 0; }
+      .hero__acoes .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+<base target="_blank">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <div class="container header__inner">
+      <!-- ALTERE O NOME DO RESTAURANTE AQUI -->
+      <a href="#inicio" class="logo">Cantina <span>Bellavita</span></a>
+
+      <nav class="nav" id="menu">
+        <a href="#inicio">Início</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#sobre">Sobre Nós</a>
+        <a href="#contato">Contato</a>
+        <!-- CTA que rola até a seção de contato -->
+        <a href="#contato" class="btn btn--primario"><i class="fa-solid fa-calendar-check"></i> Reservar Mesa</a>
+      </nav>
+
+      <button class="hamburguer" id="hamburguer" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="inicio">
+    <div class="container hero__conteudo">
+      <span class="hero__tag">Culinária Italiana Autêntica desde 1998</span>
+      <!-- ALTERE O TÍTULO E SUBTÍTULO AQUI -->
+      <h1>O sabor da <em>Toscana</em> no coração da cidade</h1>
+      <p>Massas frescas feitas à mão, pizzas no forno a lenha e vinhos selecionados. Uma experiência que abraça todos os sentidos.</p>
+      <div class="hero__acoes">
+        <a href="#cardapio" class="btn btn--primario"><i class="fa-solid fa-utensils"></i> Ver Cardápio</a>
+        <!-- ALTERE O NÚMERO DO WHATSAPP AQUI (formato: código do país + DDD + número, só dígitos) -->
+        <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20pedido." target="_blank" rel="noopener" class="btn btn--whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Fazer Pedido
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CARDÁPIO ================= -->
+  <section class="secao" id="cardapio">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <span class="etiqueta">Nossos Destaques</span>
+        <h2>Os queridinhos da casa</h2>
+        <p>Pratos preparados com ingredientes frescos e receitas de família que atravessam gerações.</p>
+      </div>
+
+      <!-- Grid responsivo: 4 colunas no desktop, empilha no mobile -->
+      <div class="grade-cardapio">
+
+        <!-- PRATO 1 — troque a URL da imagem Unsplash, nome, descrição e preço -->
+        <article class="prato">
+          <div class="prato__imagem">
+            <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=800&q=80" alt="Tagliatelle al ragù" loading="lazy" />
+          </div>
+          <div class="prato__corpo">
+            <h3>Tagliatelle al Ragù</h3>
+            <p>Massa fresca caseira envolvida em ragu de carne cozido por 6 horas, finalizado com parmesão curado.</p>
+            <div class="prato__rodape">
+              <span class="preco">R$ 72</span>
+              <span class="badge">Mais pedido</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRATO 2 -->
+        <article class="prato">
+          <div class="prato__imagem">
+            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80" alt="Pizza Margherita no forno a lenha" loading="lazy" />
+          </div>
+          <div class="prato__corpo">
+            <h3>Pizza Margherita</h3>
+            <p>Muçarela de búfala, manjericão fresco e molho de tomate San Marzano assada no forno a lenha.</p>
+            <div class="prato__rodape">
+              <span class="preco">R$ 58</span>
+              <span class="badge">Forno a lenha</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRATO 3 -->
+        <article class="prato">
+          <div class="prato__imagem">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Osso Buco alla Milanese" loading="lazy" />
+          </div>
+          <div class="prato__corpo">
+            <h3>Osso Buco alla Milanese</h3>
+            <p>Jarrete de vitela braseado lentamente no vinho branco, acompanhado de risoto açafranado cremoso.</p>
+            <div class="prato__rodape">
+              <span class="preco">R$ 96</span>
+              <span class="badge">Chef indica</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- PRATO 4 -->
+        <article class="prato">
+          <div class="prato__imagem">
+            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80" alt="Tiramisù tradicional" loading="lazy" />
+          </div>
+          <div class="prato__corpo">
+            <h3>Tiramisù della Nonna</h3>
+            <p>A sobremesa clássica com mascarpone artesanal, café coado na hora e cacau amargo premium.</p>
+            <div class="prato__rodape">
+              <span class="preco">R$ 32</span>
+              <span class="badge">Sobremesa</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SOBRE NÓS ================= -->
+  <section class="secao sobre" id="sobre">
+    <div class="container sobre__grid">
+      <div class="sobre__imagem">
+        <!-- ALTERE A IMAGEM DA SEÇÃO SOBRE AQUI -->
+        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=80" alt="Interior aconchegante do restaurante" loading="lazy" />
+      </div>
+      <div class="sobre__texto">
+        <span class="etiqueta">Nossa História</span>
+        <h2>Tradição que se sente em cada garfada</h2>
+        <!-- ALTERE A HISTÓRIA AQUI -->
+        <p>Fundada em 1998 pela família Rossi, a Cantina Bellavita nasceu do sonho de trazer as receitas da nonna para a cidade. O que começou como um pequeno balcão de massas tornou-se referência em gastronomia italiana.</p>
+        <p>Aqui, cada prato carrega memória afetiva: o ragù que apura devagar, a massa aberta à mão todas as manhãs e o aroma do forno a lenha que recebe os clientes na porta.</p>
+
+        <ul class="diferenciais">
+          <li><i class="fa-solid fa-wheat-awn"></i><div><strong>Ingredientes frescos</strong><br>Produtos locais selecionados diariamente na feira.</div></li>
+          <li><i class="fa-solid fa-fire-burner"></i><div><strong>Forno a lenha</strong><br>Pizzas e pães assados no calor autêntico da brasa.</div></li>
+          <li><i class="fa-solid fa-people-roof"></i><div><strong>Ambiente familiar</strong><br>Atendimento acolhedor que faz você se sentir em casa.</div></li>
+          <li><i class="fa-solid fa-wine-glass"></i><div><strong>Adega premiada</strong><br>Mais de 120 rótulos de vinícolas italianas e brasileiras.</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTATO ================= -->
+  <section class="secao" id="contato">
+    <div class="container">
+      <div class="secao__cabecalho">
+        <span class="etiqueta">Visite-nos</span>
+        <h2>Contato & Localização</h2>
+        <p>Estamos prontos para receber você. Reserve sua mesa ou tire dúvidas pelo WhatsApp.</p>
+      </div>
+
+      <!-- ALTERE ENDEREÇO, TELEFONE E HORÁRIOS AQUI -->
+      <div class="contato__grid">
+        <div class="cartao-contato">
+          <i class="fa-solid fa-location-dot"></i>
+          <h3>Endereço</h3>
+          <p>Rua das Oliveiras, 123 — Vila Madalena<br>São Paulo/SP · CEP 05435-010</p>
+        </div>
+        <div class="cartao-contato">
+          <i class="fa-solid fa-clock"></i>
+          <h3>Horário</h3>
+          <p>Ter–Qui: 18h às 23h<br>Sex–Sáb: 12h à 0h · Dom: 12h às 17h</p>
+        </div>
+        <div class="cartao-contato">
+          <i class="fa-solid fa-phone"></i>
+          <h3>Telefone</h3>
+          <p>(11) 99999-9999<br>contato@cantinabellavita.com.br</p>
+        </div>
+      </div>
+
+      <div class="contato__cta">
+        <h3>Garanta sua mesa nesta semana</h3>
+        <p>Responda em instantes pelo nosso WhatsApp. Grupos e eventos sob consulta.</p>
+        <!-- ALTERE O NÚMERO DO WHATSAPP AQUI TAMBÉM (mesmo número do hero) -->
+        <a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20uma%20mesa." target="_blank" rel="noopener" class="btn btn--whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Chamar no WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container">
+      <a href="#inicio" class="logo">Cantina <span>Bellavita</span></a>
+      <div class="footer__social">
+        <!-- ALTERE OS LINKS DAS REDES SOCIAIS AQUI -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://wa.me/5511999999999" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+      <!-- ALTERE O ANO E O NOME AQUI -->
+      <p class="footer__copy">© 2026 Cantina Bellavita. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT EMBUTIDO ================= -->
+  <script>
+    // ===== MENU MOBILE (hambúrguer) =====
+    const hamburguer = document.getElementById('hamburguer');
+    const menu = document.getElementById('menu');
+
+    hamburguer.addEventListener('click', () => {
+      const aberto = menu.classList.toggle('aberto');
+      hamburguer.classList.toggle('ativo', aberto);
+      hamburguer.setAttribute('aria-expanded', aberto);
+      document.body.style.overflow = aberto ? 'hidden' : ''; // trava scroll quando o menu abre
+    });
+
+    // Fecha o menu ao clicar em qualquer link (mobile)
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('aberto');
+        hamburguer.classList.remove('ativo');
+        hamburguer.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ===== HEADER MUDA AO ROLAR =====
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+      header.style.background = window.scrollY > 60
+        ? 'rgba(31, 26, 23, .96)'
+        : 'rgba(31, 26, 23, .85)';
+    });
+
+    // ===== ANIMAÇÃO SUAVE DE ENTRADA DOS PRATOS =====
+    // Revela os cards do cardápio conforme aparecem na tela
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach(entrada => {
+        if (entrada.isIntersecting) {
+          entrada.target.style.opacity = '1';
+          entrada.target.style.transform = 'translateY(0)';
+          observador.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.prato, .cartao-contato').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = `opacity .6s ease ${i * 0.08}s, transform .6s ease ${i * 0.08}s`;
+      observador.observe(el);
+    });
+  </script>
+</body>
+</html>
